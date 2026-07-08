@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Park Locator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 220px;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .map-wrapper {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #map-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 2000px; /* Expanded to accommodate full scale resolution */
+        }
+
+        #highlight-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .error-message {
+            color: #ff3b30;
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-container">
+        <h2>Find Your Parking Space</h2>
+        <input type="text" id="park-input" placeholder="Enter Park No. (e.g., 105, A01)">
+        <button onclick="locateSpot()">Search</button>
+        <div id="error-log" class="error-message"></div>
+    </div>
+
+    <div class="map-wrapper">
+        <img id="map-image" src="car-map.jpg" usemap="#parking-map" alt="Car Park Map">
+        <canvas id="highlight-canvas"></canvas>
+    </div>
+
+    <map name="parking-map">
+        <area alt="105" title="105" coords="188,680, 222,680, 222,710, 188,710" shape="poly">
+        <area alt="106" title="106" coords="188,710, 222,710, 222,738, 188,738" shape="poly">
+        <area alt="107" title="107" coords="188,738, 222,738, 222,766, 188,766" shape="poly">
+
+        <area alt="A01" title="A01" coords="632,572, 678,610, 650,642, 606,604" shape="poly">
+        <area alt="A02" title="A02" coords="578,552, 620,588, 594,620, 552,584" shape="poly">
+    </map>
+
+<script>
+    function locateSpot() {
+        const input = document.getElementById('park-input').value.trim().toUpperCase();
+        const errorLog = document.getElementById('error-log');
+        const img = document.getElementById('map-image');
+        const canvas = document.getElementById('highlight-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        errorLog.innerText = '';
+
+        const area = document.querySelector(`area[alt="${input}"]`);
+        
+        if (area) {
+            canvas.width = img.clientWidth;
+            canvas.height = img.clientHeight;
+
+            const rawCoords = area.coords.split(',').map(Number);
+            
+            const scaleX = img.clientWidth / img.naturalWidth;
+            const scaleY = img.clientHeight / img.naturalHeight;
+
+            const adjustedCoords = [];
+            for (let i = 0; i < rawCoords.length; i += 2) {
+                adjustedCoords.push(rawCoords[i] * scaleX);
+                adjustedCoords.push(rawCoords[i+1] * scaleY);
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(adjustedCoords[0], adjustedCoords[1]);
+            for (let i = 2; i < adjustedCoords.length; i += 2) {
+                ctx.lineTo(adjustedCoords[i], adjustedCoords[i+1]);
+            }
+            ctx.closePath();
+
+            // Orange-Red highlight style matching iOS system colors
+            ctx.fillStyle = 'rgba(255, 102, 0, 0.45)';
+            ctx.fill();
+
+            ctx.strokeStyle = '#ff3b30';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        } else {
+            const numInput = parseInt(input);
+            if (numInput >= 98 && numInput <= 104) {
+                errorLog.innerText = `Spot ${input} does not exist on this layout map.`;
+            } else {
+                errorLog.innerText = 'Parking spot number not found.';
+            }
+        }
+    }
+
+    document.getElementById('park-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            locateSpot();
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        const canvas = document.getElementById('highlight-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+</script>
+
+</body>
+</html>
