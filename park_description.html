@@ -26,9 +26,35 @@
             text-align: center;
         }
         h1 {
-            font-size: 26px;
-            margin-bottom: 24px;
+            font-size: 24px;
+            margin-bottom: 20px;
             font-weight: 700;
+        }
+        .search-box {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            width: 60%;
+        }
+        button {
+            padding: 10px 16px;
+            font-size: 16px;
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover {
+            background-color: #0077ed;
         }
         .info-card {
             background-color: #f5f5f7;
@@ -37,14 +63,12 @@
             border-radius: 4px;
             text-align: left;
             margin-bottom: 28px;
+            display: none; /* Hidden until search */
         }
         .info-line {
             margin-bottom: 12px;
             font-size: 16px;
             line-height: 1.5;
-        }
-        .info-line:last-child {
-            margin-bottom: 0;
         }
         .label {
             font-weight: 600;
@@ -52,6 +76,11 @@
         }
         .value {
             color: #424245;
+        }
+        .error-msg {
+            color: #ff3b30;
+            margin-bottom: 20px;
+            display: none;
         }
         .btn-back {
             display: inline-block;
@@ -62,10 +91,6 @@
             font-size: 16px;
             font-weight: 600;
             border-radius: 8px;
-            transition: background-color 0.2s;
-        }
-        .btn-back:hover {
-            background-color: #484f54;
         }
     </style>
 </head>
@@ -74,23 +99,70 @@
 <div class="container">
     <h1>Car Park Location Description</h1>
 
-    <div class="info-card">
+    <!-- Input section where you type the park number -->
+    <div class="search-box">
+        <input type="text" id="parkInput" placeholder="Enter Park No. (e.g., 1, 2, 3)">
+        <button onclick="lookupPark()">Search</button>
+    </div>
+
+    <div id="errorBox" class="error-msg">Car park number not found. Please try another number.</div>
+
+    <!-- This card will open up to display the data -->
+    <div id="infoCard" class="info-card">
         <div class="info-line">
             <span class="label">Location Name:</span> 
-            <span class="value">Peter Culture Car Park</span>
+            <span id="locName" class="value"></span>
         </div>
         <div class="info-line">
             <span class="label">Address / Level:</span> 
-            <span class="value">Main Floor, Reserved Spaces</span>
+            <span id="locAddress" class="value"></span>
         </div>
         <div class="info-line">
             <span class="label">Quick Notes:</span> 
-            <span class="value">This is your quick daily lookup reference page for parking maps and information.</span>
+            <span id="locNotes" class="value"></span>
         </div>
     </div>
 
     <a href="index.html" class="btn-back">Back to Main Menu</a>
 </div>
+
+<script>
+function lookupPark() {
+    var input = document.getElementById("parkInput").value.trim();
+    var card = document.getElementById("infoCard");
+    var error = document.getElementById("errorBox");
+    
+    // Elements to change text
+    var locName = document.getElementById("locName");
+    var locAddress = document.getElementById("locAddress");
+    var locNotes = document.getElementById("locNotes");
+
+    // Hide everything first
+    card.style.display = "none";
+    error.style.display = "none";
+
+    // SIMPLE DATABASE LIST: You can add or change numbers here easily!
+    if (input === "1") {
+        locName.innerText = "Kowloon Bay Central Parking";
+        locAddress.innerText = "Level 2, Bay 204";
+        locNotes.innerText = "Entrance code: #8899. Close to the elevator.";
+        card.style.display = "block";
+    } else if (input === "2") {
+        locName.innerText = "Mong Kok Square Car Park";
+        locAddress.innerText = "Basement 1, Zone A";
+        locNotes.innerText = "Keep your receipt for free 2-hour parking discount.";
+        card.style.display = "block";
+    } else if (input === "3") {
+        locName.innerText = "Peter Culture Main Space";
+        locAddress.innerText = "Ground Floor, Reserved No. 5";
+        locNotes.innerText = "Always keep your permit pass on the dashboard.";
+        card.style.display = "block";
+    } else {
+        // If they type a number you haven't added yet
+        error.style.display = "block";
+    }
+}
+</script>
 
 </body>
 </html>
