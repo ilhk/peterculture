@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Park Location Description</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        h1 {
+            font-size: 26px;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+        .info-card {
+            background-color: #f5f5f7;
+            border-left: 4px solid #0071e3;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+        .info-line {
+            margin-bottom: 12px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .info-line:last-child {
+            margin-bottom: 0;
+        }
+        .label {
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+        .value {
+            color: #424245;
+        }
+        .btn-back {
+            display: inline-block;
+            background-color: #687076;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+        .btn-back:hover {
+            background-color: #484f54;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Car Park Location Description</h1>
+
+    <div class="info-card">
+        <div class="info-line">
+            <span class="label">Location Name:</span> 
+            <span class="value">[ Enter Car Park Name Here ]</span>
+        </div>
+        <div class="info-line">
+            <span class="label">Address / Level:</span> 
+            <span class="value">[ Enter Floor, Zone, or Bay No. ]</span>
+        </div>
+        <div class="info-line">
+            <span class="label">Quick Notes:</span> 
+            <span class="value">This section is ready for your daily lookup references, entry codes, or specific parking rules!</span>
+        </div>
+    </div>
+
+    <!-- Links back to your main menu file -->
+    <a href="index.html" class="btn-back">Back to Main Menu</a>
+</div>
+
+</body>
+</html>
