@@ -63,7 +63,7 @@
             border-radius: 4px;
             text-align: left;
             margin-bottom: 28px;
-            display: none; /* Hidden until search */
+            display: none;
         }
         .info-line {
             margin-bottom: 12px;
@@ -81,6 +81,7 @@
             color: #ff3b30;
             margin-bottom: 20px;
             display: none;
+            font-size: 15px;
         }
         .btn-back {
             display: inline-block;
@@ -99,15 +100,13 @@
 <div class="container">
     <h1>Car Park Location Description</h1>
 
-    <!-- Input section where you type the park number -->
     <div class="search-box">
-        <input type="text" id="parkInput" placeholder="Enter Park No. (e.g., 1, 2, 3)">
+        <input type="text" id="parkInput" placeholder="Enter Park No. (e.g., 105, 1, 2)">
         <button onclick="lookupPark()">Search</button>
     </div>
 
     <div id="errorBox" class="error-msg">Car park number not found. Please try another number.</div>
 
-    <!-- This card will open up to display the data -->
     <div id="infoCard" class="info-card">
         <div class="info-line">
             <span class="label">Location Name:</span> 
@@ -132,17 +131,20 @@ function lookupPark() {
     var card = document.getElementById("infoCard");
     var error = document.getElementById("errorBox");
     
-    // Elements to change text
     var locName = document.getElementById("locName");
     var locAddress = document.getElementById("locAddress");
     var locNotes = document.getElementById("locNotes");
 
-    // Hide everything first
     card.style.display = "none";
     error.style.display = "none";
 
-    // SIMPLE DATABASE LIST: You can add or change numbers here easily!
-    if (input === "1") {
+    // CAR PARK DATA LIST
+    if (input === "105") {
+        locName.innerText = "Peter Culture VIP Car Park";
+        locAddress.innerText = "Floor 1, Block C, Space 105";
+        locNotes.innerText = "Requires active security pass. Directly next to the main building entrance.";
+        card.style.display = "block";
+    } else if (input === "1") {
         locName.innerText = "Kowloon Bay Central Parking";
         locAddress.innerText = "Level 2, Bay 204";
         locNotes.innerText = "Entrance code: #8899. Close to the elevator.";
@@ -158,7 +160,6 @@ function lookupPark() {
         locNotes.innerText = "Always keep your permit pass on the dashboard.";
         card.style.display = "block";
     } else {
-        // If they type a number you haven't added yet
         error.style.display = "block";
     }
 }
