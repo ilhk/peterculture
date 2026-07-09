@@ -3,151 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peterculture Web Tools</title>
+    <title>Peter Culture Menu</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f5f5f7;
+            color: #1d1d1f;
+            padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
         }
-
         .menu-container {
+            max-width: 500px;
             width: 100%;
-            max-width: 400px;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-
         h1 {
-            color: #1d1d1f;
-            margin-bottom: 5px;
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 24px;
         }
-
-        .subtitle {
-            color: #86868b;
-            margin-bottom: 30px;
-            font-size: 16px;
+        .menu-item {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e7;
         }
-
-        /* Menu Button Styles */
-        .menu-button {
-            display: flex;
-            align-items: center;
-            background-color: #ffffff;
-            color: #1d1d1f;
-            text-decoration: none;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 14px;
+        .menu-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .menu-item a {
+            display: block;
             font-size: 18px;
+            color: #0071e3;
+            text-decoration: none;
             font-weight: 600;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid #e5e5ea;
+            margin-bottom: 4px;
         }
-
-        /* Active/Tap state for iOS feel */
-        .menu-button:active {
-            transform: scale(0.98);
-            background-color: #f2f2f7;
+        .menu-item a:hover {
+            text-decoration: underline;
         }
-
-        /* Number/Icon badge */
-        .badge {
-            background-color: #007aff;
-            color: white;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
+        .description {
             font-size: 14px;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .button-text {
-            flex-grow: 1;
-            text-align: left;
-        }
-
-        .arrow {
-            color: #c7c7cc;
-            font-weight: bold;
+            color: #86868b;
+            margin: 0;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
-    <div class="menu-container">
-        <h1>Peterculture</h1>
-        <div class="subtitle">Select a Program</div>
+<div class="menu-container">
+    <h1>Peter Culture Portal</h1>
 
-        <!-- Option 1: Pinyin Program -->
-        <!-- Update 'pinyin.html' to the exact name of your existing pinyin file -->
-        <a href="pinyin.html" class="menu-button">
-            <div class="badge">1</div>
-            <div class="button-text">Pinyin Program</div>
-            <div class="arrow">➔</div>
-        </a>
-
-        <!-- Option 2: Car Map Program -->
-        <!-- Update 'carmap.html' to whatever you name your car park map file -->
-        <a href="carmap.html" class="menu-button">
-            <div class="badge">2</div>
-            <div class="button-text">Car Park Locator</div>
-            <div class="arrow">➔</div>
-        </a>
-
-        <hr>
-<h2>Option 3: Car Park Location Description</h2>
-<p>Please enter the car park number (e.g., 27, 73, or A27):</p>
-
-<input type="text" id="parkInput" placeholder="Enter park no..." style="padding: 5px; font-size: 16px;">
-
-<button onclick="searchParkingLocation()" style="padding: 5px 10px; font-size: 16px; cursor: pointer;">Search</button>
-
-<div id="searchResult" style="margin-top: 15px; font-size: 18px; font-weight: bold; color: blue;"></div>
-
-<script>
-function searchParkingLocation() {
-    let inputNo = document.getElementById('parkInput').value.trim();
-    let resultDiv = document.getElementById('searchResult');
-    
-    if (!inputNo) {
-        resultDiv.innerHTML = '<span style="color: red;">⚠️ Please enter a park number first!</span>';
-        return;
-    }
-    
-    resultDiv.innerHTML = 'Searching...';
-    
-    // 連線到後台 Python 查詢小助手 (Port: 8000)
-    fetch(`http://127.0.0.1:8000/search?no=${inputNo}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                resultDiv.innerHTML = `<span style="color: red;">❌ ${data.error}</span>`;
-            } else {
-                resultDiv.innerHTML = `✅ Location: <span style="color: green; font-size: 20px;">${data.description}</span>`;
-            }
-        })
-        .catch(err => {
-            resultDiv.innerHTML = '<span style="color: red;">❌ Cannot connect to database helper. Please check your Terminal.</span>';
-        });
-}
-</script>
+    <!-- 1. Pinyin Program -->
+    <div class="menu-item">
+        <a href="pinyin.html">1. Pinyin Program</a>
+        <p class="description">Interactive tool for character translation and learning.</p>
     </div>
+
+    <!-- 2. Car Map Program -->
+    <div class="menu-item">
+        <a href="carmap.html">2. Car Map Program</a>
+        <p class="description">Visual mapping tool to locate and manage car details.</p>
+    </div>
+
+    <!-- 3. Car Park Location Description -->
+    <div class="menu-item">
+        <a href="carpark.html">3. Car Park Location Description</a>
+        <p class="description">Quick daily lookup reference for parking spots and descriptions.</p>
+    </div>
+
+    <!-- PA Option -->
+    <div class="menu-item">
+        <a href="https://peterculture.pythonanywhere.com/" target="_blank">PA</a>
+        <p class="description">Advanced Python backend for heavy data processing, Pandas scripts, and spreadsheet automation.</p>
+    </div>
+</div>
 
 </body>
 </html>
